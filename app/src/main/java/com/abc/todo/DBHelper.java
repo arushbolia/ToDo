@@ -2,16 +2,16 @@ package com.abc.todo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.Nullable;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "ToDOHelper.db";
+    private static final String DATABASE_NAME = "ToDoList.db";
     private static final String CONTACTS_TABLE_NAME = "todo";
 
     public DBHelper(Context context) {
@@ -71,4 +71,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Select query remaining
+
+
+    protected Cursor selectAll()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor rm =db.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME +" ORDER BY priority, addingDate", null);
+        return rm;
+    }
+
+    protected  Cursor  selectById(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor rm = db.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME + " WHERE id = " + id, null);
+        return rm;
+    }
 }
